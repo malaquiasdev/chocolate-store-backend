@@ -1,23 +1,54 @@
 package com.github.mmalaquiasdev.chocolatestore.category.api.v1;
 
-import com.github.mmalaquiasdev.chocolatestore.category.domain.Category;
+import com.github.mmalaquiasdev.chocolatestore.category.Category;
+import com.github.mmalaquiasdev.chocolatestore.category.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/categories")
-public class CategoryRestService {
+class CategoryRestService {
+
+    @Autowired
+    private CategoryService service;
+
+    @PostConstruct
+    private void initDataBase() {
+        service.initDatabase();
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Iterable<Category> findAll(){
-        Category info = Category.builder().id(1).name("info").build();
-        Category room = Category.builder().id(2).name("room").build();
-        return Arrays.asList(info, room);
+        return service.findAll();
+    }
+
+    @GetMapping("{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public Category findByName(@PathVariable String name){
+        return service.findByName(name)
+                .orElse(Category.builder().build());
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Category save(@Valid @RequestBody Category category){
+        return service.save(category);
+    }
+
+    @PutMapping("{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public Category update(@PathVariable String name, @RequestBody Category category){
+        return service.save(category);
+    }
+
+    @DeleteMapping("{name}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String name){
+        service.delete(name);
     }
 }
