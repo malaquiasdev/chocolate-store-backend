@@ -1,6 +1,5 @@
 package com.github.mmalaquiasdev.chocolatestore.category;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +19,6 @@ import java.io.Serializable;
 @Entity
 public class Category implements Serializable {
 
-    @JsonIgnore
     @Id @GeneratedValue
     private Integer id;
     @NotBlank

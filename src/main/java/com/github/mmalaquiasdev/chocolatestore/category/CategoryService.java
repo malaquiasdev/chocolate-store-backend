@@ -17,6 +17,10 @@ public class CategoryService {
         return repository.findAll();
     }
 
+    public Optional<Category> findById(Integer id) {
+        return repository.findById(id);
+    }
+
     public Optional<Category> findByName(String name){
         return repository.findByName(name);
     }
@@ -25,9 +29,9 @@ public class CategoryService {
         return repository.save(category);
     }
 
-    public void delete(String name){
-        Optional<Category> category = repository.findByName(name);
-        if(category.isPresent()) repository.equals(category.get());
+    public void delete(Integer id){
+        Optional<Category> category = findById(id);
+        if(category.isPresent()) repository.delete(category.get());
     }
 
     public void initDatabase() {

@@ -27,11 +27,10 @@ class CategoryRestService {
         return service.findAll();
     }
 
-    @GetMapping("{name}")
+    @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Category findByName(@PathVariable String name){
-        return service.findByName(name)
-                .orElse(Category.builder().build());
+    public Category findByName(@PathVariable Integer id){
+        return service.findById(id).orElse(new Category());
     }
 
     @PostMapping
@@ -40,15 +39,15 @@ class CategoryRestService {
         return service.save(category);
     }
 
-    @PutMapping("{name}")
+    @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Category update(@PathVariable String name, @RequestBody Category category){
+    public Category update(@PathVariable Integer id, @RequestBody Category category){
         return service.save(category);
     }
 
-    @DeleteMapping("{name}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable String name){
-        service.delete(name);
+    public void delete(@PathVariable Integer id){
+        service.delete(id);
     }
 }
