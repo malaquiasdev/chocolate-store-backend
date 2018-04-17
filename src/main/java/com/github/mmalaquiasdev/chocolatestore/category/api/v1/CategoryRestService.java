@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 @RestController
@@ -15,11 +14,6 @@ class CategoryRestService {
 
     @Autowired
     private CategoryService service;
-
-    @PostConstruct
-    private void initDataBase() {
-        service.initDatabase();
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
