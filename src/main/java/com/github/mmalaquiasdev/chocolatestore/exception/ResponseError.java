@@ -1,9 +1,10 @@
 package com.github.mmalaquiasdev.chocolatestore.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
 /**
  *
@@ -11,10 +12,11 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
+@Value
 public class ResponseError {
     
-    private final int status;
-    private final String msg;
-    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
-    private final Date date = new Date();
+    private int status;
+    private String msg;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate date = LocalDate.now();
 }
