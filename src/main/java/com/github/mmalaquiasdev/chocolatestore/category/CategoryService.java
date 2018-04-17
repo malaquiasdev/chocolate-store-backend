@@ -1,5 +1,6 @@
 package com.github.mmalaquiasdev.chocolatestore.category;
 
+import com.github.mmalaquiasdev.chocolatestore.exception.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,9 @@ public class CategoryService {
     }
 
     public Optional<Category> findById(Integer id) {
-        return repository.findById(id);
+        Optional<Category> optionalCategory = repository.findById(id);
+        if(!optionalCategory.isPresent()) throw new ResourceNotFound("Category not found");
+        return optionalCategory;
     }
 
     public Optional<Category> findByName(String name){
