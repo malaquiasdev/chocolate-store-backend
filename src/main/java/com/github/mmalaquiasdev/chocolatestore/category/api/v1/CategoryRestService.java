@@ -2,6 +2,7 @@ package com.github.mmalaquiasdev.chocolatestore.category.api.v1;
 
 import com.github.mmalaquiasdev.chocolatestore.category.Category;
 import com.github.mmalaquiasdev.chocolatestore.category.CategoryService;
+import com.github.mmalaquiasdev.chocolatestore.exception.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ class CategoryRestService {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Category findByName(@PathVariable Integer id){
-        return service.findById(id).orElse(new Category());
+        return service.findById(id).orElseThrow(() -> new ResourceNotFound("Category not found."));
     }
 
     @PostMapping
