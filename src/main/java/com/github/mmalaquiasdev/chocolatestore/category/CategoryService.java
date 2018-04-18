@@ -1,11 +1,10 @@
 package com.github.mmalaquiasdev.chocolatestore.category;
 
-import com.github.mmalaquiasdev.chocolatestore.exception.ResourceNotFound;
+import com.github.mmalaquiasdev.chocolatestore.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -17,23 +16,18 @@ public class CategoryService {
         return repository.findAll();
     }
 
-    public Optional<Category> findById(Integer id) {
-        Optional<Category> optionalCategory = repository.findById(id);
-        if(!optionalCategory.isPresent()) throw new ResourceNotFound("Category not found");
-        return optionalCategory;
+    public Category findById(Integer id) {
+        return repository
+                .findById(id)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
-    public Optional<Category> findByName(String name){
-        return repository.findByName(name);
-    }
-    
     public Category save(Category category) {
         return repository.save(category);
     }
 
     public void delete(Integer id){
-        Optional<Category> category = findById(id);
-        if(category.isPresent()) repository.delete(category.get());
+        Category category = findById(id);
+        repository.delete(category);
     }
-    
 }

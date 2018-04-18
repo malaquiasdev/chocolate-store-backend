@@ -24,7 +24,7 @@ class CategoryRestService {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Category findById(@PathVariable Integer id){
-        return service.findById(id).get();
+        return service.findById(id);
     }
 
     @PostMapping
